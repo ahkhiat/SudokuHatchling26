@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SudokuHatchling26</string>
+    <string name="onboarding1_title">Progressive Sudoku Challenge</string>
+
+    <string name="onboarding1_text_line1">Grow from Eggshell to Wise Owl</string>
+    <string name="onboarding1_text_line2">as you solve puzzles</string>
+    <string name="onboarding1_text_line3">designed for every skill level!</string>
+    <string name="onboarding2_title">Daily Egg Hunt</string>
+    <string name="onboarding2_text_line1">Crack hiden rewards every day</string>
+    <string name="onboarding2_text_line2">with our Daily Egg Hunt!</string>
+    <string name="onboarding3_title">Night Owl Mode</string>
+    <string name="onboarding3_text_line1">Solve Sudoku puzzles in style,</string>
+    <string name="onboarding3_text_line2">day or night!</string>
+    <string name="welcome_title">Welcome to</string>
+    <string name="welcome_text_line1">Crack the puzzles, spread your wings,</string>
+    <string name="welcome_text_line2">and become a Sudoku master!</string>
+    <string name="button_next">Next</string>
+    <string name="button_back">Back</string>
+    <string name="button_start">Let\'s Start!</string>
+
+    <!--  Register -->
+    <string name="register_et_email">email</string>
+    <string name="register_et_password">password</string>
+    <string name="register_et_email_label">Votre email:</string>
+    <string name="register_et_password_label">Mot de passe:</string>
+    <string name="register_et_passwordconfirm">Confirmez votre mot de passe:</string>
+    <string name="register_et_passwordconfirm_label">Confirmez votre mot de passe:</string>
+    <string name="button_register">Inscrivez-vous!</string>
+
+    <!--   Levels -->
+    <string name="level1">Oeuf</string>
+    <string name="level2">Brêcheur</string>
+    <string name="level3">Novhibou</string>
+    <string name="level4">Ailefranche</string>
+    <string name="level5">Sageplume</string>
+
+    <string name="level1_legend">Débutant</string>
+    <string name="level2_legend">Facile</string>
+    <string name="level3_legend">Intermédiaire</string>
+    <string name="level4_legend">Avancé</string>
+    <string name="level5_legend">Expert</string>
+    <string name="button_login">Sign in!</string>
+
+    <string name="already_registered">Already registered? Sign in!</string>
+
+    <string name="not_registered">Don\'t have an account? Sign up!</string>
+    <string name="choose_level_title">Choose Your Challenge Level</string>
+
+</resources>

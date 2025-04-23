@@ -87,4 +87,7 @@ dependencies {
     implementation("io.insert-koin:koin-android:$koinVersion")
     implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
 
+    // Shapes
+    implementation ("androidx.graphics:graphics-shapes:1.0.1")
+
 }

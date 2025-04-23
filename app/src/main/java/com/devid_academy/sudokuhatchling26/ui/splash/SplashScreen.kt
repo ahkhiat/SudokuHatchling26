@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.devid_academy.sudokuhatchling26.R
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.SplashViewModel
 import com.devid_academy.sudokuhatchling26.ui.theme.YellowColor
 import kotlinx.coroutines.delay
 

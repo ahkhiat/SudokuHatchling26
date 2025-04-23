@@ -5,11 +5,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.devid_academy.sudokuhatchling26.ui.chooselevel.ChooseLevelScreen
+import com.devid_academy.sudokuhatchling26.ui.login.LoginScreen
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.LoginViewModel
 import com.devid_academy.sudokuhatchling26.ui.onboarding.OnBoardingOneScreen
 import com.devid_academy.sudokuhatchling26.ui.onboarding.OnBoardingThreeScreen
 import com.devid_academy.sudokuhatchling26.ui.onboarding.OnBoardingTwoScreen
+import com.devid_academy.sudokuhatchling26.ui.register.RegisterScreen
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.RegisterViewModel
 import com.devid_academy.sudokuhatchling26.ui.splash.SplashScreen
-import com.devid_academy.sudokuhatchling26.ui.splash.SplashViewModel
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.SplashViewModel
 import com.devid_academy.sudokuhatchling26.ui.welcomepage.WelcomePageScreen
 import org.koin.androidx.compose.koinViewModel
 
@@ -39,6 +43,14 @@ fun MyAppNavigation() {
         }
         composable(Screen.WelcomePage.route) {
             WelcomePageScreen(navController)
+        }
+        composable(Screen.Register.route) {
+            val registerViewModel: RegisterViewModel = koinViewModel()
+            RegisterScreen(navController, registerViewModel)
+        }
+        composable(Screen.Login.route) {
+            val loginViewModel: LoginViewModel = koinViewModel()
+            LoginScreen(navController, loginViewModel)
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.devid_academy.sudokuhatchling26.R
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
+import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 
 
 @Composable
@@ -45,6 +50,7 @@ fun OnBoardingThreeContent(
     onNextClicked: () -> Unit,
     onBackClicked: () -> Unit
 ) {
+    val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -53,10 +59,12 @@ fun OnBoardingThreeContent(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(80.dp))
-            Image(
-                painter = painterResource(R.drawable.onboarding3_title),
-                contentDescription ="on boarding page 3 title",
+            Spacer(modifier = Modifier.height(60.dp))
+            Text(
+                text = context.getString(R.string.onboarding3_title),
+                fontSize = 28.sp,
+                fontFamily = SummaryNotesFamily,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(40.dp))
             Image(
@@ -66,23 +74,25 @@ fun OnBoardingThreeContent(
                     .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(40.dp))
-            Image(
-                painter = painterResource(R.drawable.onboarding3_text),
-                contentDescription = null,
+            Text(
+                text = context.getString(R.string.onboarding3_text_line1),
+                fontSize = 24.sp,
+                fontFamily = SummaryNotesFamily,
+                textAlign = TextAlign.Center
             )
-//            Spacer(modifier = Modifier.height(40.dp))
-//            Image(
-//                painter = painterResource(R.drawable.onboarding1_pagination),
-//                contentDescription = null,
-//            )
-//            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = context.getString(R.string.onboarding3_text_line2),
+                fontSize = 24.sp,
+                fontFamily = SummaryNotesFamily,
+                textAlign = TextAlign.Center
+            )
         }
         Image(
             painter = painterResource(R.drawable.onboarding3_pagination),
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 300.dp)
+                .padding(bottom = 280.dp)
         )
         Image(
             painter = painterResource(R.drawable.onboarding3_yellow),
@@ -98,22 +108,49 @@ fun OnBoardingThreeContent(
                 onClick = onNextClicked,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             ) {
-                Image(
-                    painter = painterResource(R.drawable.onboarding1_button),
-                    contentDescription = "next button"
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.button_red),
+                        contentDescription = "next button",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    Text(
+                        text = context.getString(R.string.button_next),
+                        fontSize = 32.sp,
+                        fontFamily = SummaryNotesFamily,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                }
             }
-
             Button(
                 onClick = onBackClicked,
-                modifier = Modifier
-                    .padding(bottom = 10.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             ) {
-                Image(
-                    painter = painterResource(R.drawable.onboarding2_button_white),
-                    contentDescription = "next button"
-                )
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.button_white),
+                        contentDescription = "back button",
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    Text(
+                        text = context.getString(R.string.button_back),
+                        fontSize = 32.sp,
+                        fontFamily = SummaryNotesFamily,
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    )
+                }
             }
         }
 
