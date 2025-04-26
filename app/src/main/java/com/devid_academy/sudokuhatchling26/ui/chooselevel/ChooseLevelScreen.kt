@@ -1,21 +1,16 @@
 package com.devid_academy.sudokuhatchling26.ui.chooselevel
 
-import android.content.Context
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -25,22 +20,58 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devid_academy.sudokuhatchling26.R
-import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomRadioButton
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.navigation.NavController
+import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.ChooseLevelViewModel
+import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
+import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CardLevelChoice
+import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
+import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.MinimalDropdownMenu
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun ChooseLevelScreen() {
-    ChooseLevelContent()
+fun ChooseLevelScreen(
+    navController: NavController
+) {
+    val  viewModel: ChooseLevelViewModel = koinViewModel()
+    var selectedLevel by remember { mutableStateOf<LevelChoiceEnum>(LevelChoiceEnum.Beginner) }
+
+    LaunchedEffect(true) {
+        viewModel.chooseLevelSharedFlow.collect { event ->
+            when(event) {
+                is AuthEvent.NavigateToLogin ->
+                    navController.navigate(Screen.Login.route)
+                else -> {}
+            }
+        }
+    }
+
+    ChooseLevelContent(
+        selectedLevel = selectedLevel,
+        onSelectLevel = { selectedLevel = it },
+        onClick = {
+            viewModel.logoutUser()
+        },
+        onClickLetsPlay = {
+            navController.navigate(Screen.GameScreen.route + "/$selectedLevel")
+        }
+    )
 }
 
 @Composable
-private fun ChooseLevelContent() {
+private fun ChooseLevelContent(
+    selectedLevel : LevelChoiceEnum,
+    onSelectLevel: (LevelChoiceEnum) -> Unit,
+    onClick: () -> Unit,
+    onClickLetsPlay: () -> Unit
+) {
     val context = LocalContext.current
-
-    var selectedLevel by remember { mutableStateOf(0) }
 
     Box(
         modifier = Modifier
@@ -54,6 +85,13 @@ private fun ChooseLevelContent() {
                 .align(Alignment.TopCenter),
             contentScale = ContentScale.Crop,
             )
+
+        MinimalDropdownMenu(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 10.dp, end = 10.dp),
+            onClick = onClick
+        )
         Text(
             text = context.getString(R.string.choose_level_title),
             fontSize = 34.sp,
@@ -61,90 +99,48 @@ private fun ChooseLevelContent() {
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 60.dp)
+                .padding(top = 80.dp)
         )
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(horizontal = 20.dp)
         ) {
-            RowLevelChoice(
-                context = context,
-                R.drawable.level1,
-                R.string.level1,
-                R.string.level1_legend,
-                selected = selectedLevel == 1,
-                onClick = { selectedLevel = 1 }
-            )
-            RowLevelChoice(
-                context = context,
-                R.drawable.level2,
-                R.string.level2,
-                R.string.level2_legend,
-                selected = selectedLevel == 2,
-                onClick = { selectedLevel = 2 }
-            )
+            LevelChoiceEnum.entries.forEach { level ->
+                CardLevelChoice(
+                    levelChoiceEnum = level,
+                    selected = selectedLevel == level,
+                    onClick = { onSelectLevel(level) },
+                    modifier = Modifier
+                        .padding(bottom = 20.dp)
+                )
 
-
+            }
         }
-
-
-    }
-
-
-}
-@Composable
-private fun RowLevelChoice(
-    context: Context,
-    image: Int,
-    level: Int,
-    legend: Int,
-    selected: Boolean = false,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .width(350.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ){
-        Image(
-            painter = painterResource(image),
-            contentDescription = null,
+        CustomButton(
+            context = context,
             modifier = Modifier
-                .size(100.dp)
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 30.dp),
+            imageBackground = R.drawable.button_red,
+            text = R.string.lets_start,
+            onClick = {
+                onClickLetsPlay()
+//                Log.d("CHOOSE LEVEL BUTTON", "Level selected : ${LevelChoiceEnum.entries[selectedLevel]}")
+            }
         )
-        Column (
-
-        ){
-            Text(
-                text = context.getString(level),
-                fontSize = 34.sp,
-                fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-            )
-            Text(
-                text = "(${context.getString(legend)})",
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-            )
-
-        }
-        CustomRadioButton(
-            selected = selected,
-            onClick = onClick,
-            size = 36.dp
-        )
-
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 private fun ChooseLevelPreview() {
-    ChooseLevelContent()
+    ChooseLevelContent(
+        onClick = {},
+        onClickLetsPlay = {},
+        selectedLevel = LevelChoiceEnum.Beginner,
+        onSelectLevel = {}
+    )
 }
 // important de le faire privé (tout sauf le screen)

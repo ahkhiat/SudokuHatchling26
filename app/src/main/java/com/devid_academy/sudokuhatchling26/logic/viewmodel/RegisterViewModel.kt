@@ -16,17 +16,17 @@ class RegisterViewModel(
         val cleanedEmail = email.trim()
         val cleanedPassword = password.trim()
         val cleanedPasswordConfirm = passwordConfirm.trim()
-        viewModelScope.launch {
-            try {
-                val response = supabaseModule.supabase.auth.signUpWith(Email) {
-                    this.email = cleanedEmail
-                    this.password = cleanedPassword
-                }
-
-            } catch(e: Exception) {
-                Log.e("REGISTER VM", "Erreur Catch : ${e.message}")
-            }
-        }
+//        viewModelScope.launch {
+//            try {
+//                val response = supabaseModule.supabase.auth.signUpWith(Email) {
+//                    this.email = cleanedEmail
+//                    this.password = cleanedPassword
+//                }
+//
+//            } catch(e: Exception) {
+//                Log.e("REGISTER VM", "Erreur Catch : ${e.message}")
+//            }
+//        }
 // 123456
 
 

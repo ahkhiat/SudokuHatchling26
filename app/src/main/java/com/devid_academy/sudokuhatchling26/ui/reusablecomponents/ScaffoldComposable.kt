@@ -2,6 +2,7 @@ package com.devid_academy.sudokuhatchling26.ui.reusablecomponents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -21,16 +22,19 @@ import io.ktor.websocket.Frame.Text
 
 @Composable
 fun ScaffoldComposable(
-    content: @Composable () -> Unit
+    modifier: Modifier = Modifier,
+    content: @Composable (PaddingValues) -> Unit
 ) {
-    Scaffold { innerPadding ->
+    Scaffold(
+    ) { innerPadding ->
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .padding(innerPadding)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            content()
+            content(innerPadding)
         }
     }
 }
+

@@ -41,3 +41,16 @@ val SummaryNotesFamily = FontFamily(
         FontWeight.Normal
     ),
 )
+
+val PerfectPenmanshipFamily = FontFamily(
+    Font(
+        R.font.perfect_penmanship,
+        FontWeight.Normal
+    )
+)
+val RecoletaFamily = FontFamily(
+    Font(
+        R.font.recoleta,
+        FontWeight.Normal
+    )
+)

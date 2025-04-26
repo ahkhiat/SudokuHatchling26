@@ -34,7 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.devid_academy.sudokuhatchling26.R
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.SplashViewModel
+import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.YellowColor
 import kotlinx.coroutines.delay
 
@@ -49,13 +51,27 @@ fun SplashScreen(
     val animateEggs by splashViewModel.animateEggs.collectAsState()
 
     LaunchedEffect(true) {
-        splashViewModel.goToMainOrLogin.collect { direction ->
-            direction?.let {
-                navController.navigate(it) {
-                    popUpTo("splash") {
-                        inclusive = true
+        splashViewModel.loginSharedFlow.collect { event ->
+            when(event) {
+                is AuthEvent.NavigateToChooseLevel ->
+                    navController.navigate(Screen.ChooseLevel.route) {
+                        popUpTo("splash") {
+                            inclusive = true
+                        }
                     }
+                is AuthEvent.NavigateToOnBoarding ->
+                    navController.navigate(Screen.OnBoardingOne.route) {
+                        popUpTo("splash") {
+                            inclusive = true
+                        }
+                    }
+                is AuthEvent.ShowSnackBar -> {
+
                 }
+                else -> {
+
+                }
+
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.devid_academy.sudokuhatchling26.ui.theme.YellowColor
@@ -19,21 +20,19 @@ fun CustomRadioButton(
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    size: Dp = 24.dp,
     emptyColor: Color = Color.White,
-    selectedColor: Color = YellowColor
-) {
-    val totalSize = if (selected) size * 1.2f else size
+    selectedColor: Color = YellowColor,
 
+    ) {
     Box(
         modifier = modifier
-            .size(totalSize)
+            .size(36.dp)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
-                .size(size)
+                .size(36.dp)
                 .background(color = emptyColor, shape = CircleShape)
         )
 
@@ -42,27 +41,27 @@ fun CustomRadioButton(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
+//
                 Box(
                     modifier = Modifier
-                        .size(size * 1.1f)
+                        .size(36.dp)
                         .background(emptyColor, shape = CircleShape)
                 )
                 Box(
                     modifier = Modifier
-                        .size(size * 1.2f)
-                        .background(YellowColor, shape = CircleShape)
-                )
-                Box(
-                    modifier = Modifier
-                        .size(size)
-                        .background(emptyColor, shape = CircleShape)
-                )
-                Box(
-                    modifier = Modifier
-                        .size(size * 0.6f)
+                        .size(36.dp * 0.7f)
                         .background(selectedColor, shape = CircleShape)
                 )
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun CustomRadioButtonPreview() {
+    CustomRadioButton(
+        selected = true,
+        onClick = {},
+    )
 }

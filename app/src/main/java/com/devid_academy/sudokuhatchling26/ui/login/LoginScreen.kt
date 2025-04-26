@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,17 +30,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.R
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.LoginViewModel
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.InputFormTextField
 import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-    viewModel: LoginViewModel
+    navController: NavController
 ) {
+    val viewModel: LoginViewModel = koinViewModel()
+
+    LaunchedEffect(true) {
+        viewModel.loginSharedFlow.collect { event ->
+            when (event) {
+                AuthEvent.NavigateToChooseLevel -> {
+                    navController.navigate(Screen.ChooseLevel.route)
+                }
+                is AuthEvent.ShowSnackBar -> TODO()
+                null -> TODO()
+                AuthEvent.Unknown -> TODO()
+                AuthEvent.Error -> TODO()
+                AuthEvent.NavigateToLogin -> TODO()
+                AuthEvent.NavigateToOnBoarding -> TODO()
+                AuthEvent.NavigateToStart -> TODO()
+            }
+        }
+    }
+
     LoginContent(
         onLogin = { email, password ->
             viewModel.loginUser(

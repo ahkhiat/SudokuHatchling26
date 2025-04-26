@@ -138,7 +138,7 @@ fun OnBoardingOneContent(
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 280.dp)
+                    .padding(bottom = 300.dp)
             )
             Image(
                 painter = painterResource(R.drawable.onboarding1_yellow),

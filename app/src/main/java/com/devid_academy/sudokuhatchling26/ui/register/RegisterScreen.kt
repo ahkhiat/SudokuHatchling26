@@ -34,12 +34,14 @@ import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.InputFormTextField
 import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RegisterScreen(
-    navController: NavController,
-    viewModel: RegisterViewModel
+    navController: NavController
 ) {
+    val viewModel: RegisterViewModel = koinViewModel()
+
     RegisterContent(
         onRegister = { email, password, passwordConfirm ->
             viewModel.registerUser(

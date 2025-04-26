@@ -12,3 +12,4 @@ val Pink40 = Color(0xFF7D5260)
 
 val YellowColor = Color(0xFFFFD72E)
 val YellowFont = Color(0XFFF8BA00)
+val GreyBackground = Color(0xFFEAEAEA)
