@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GridDTO(
-    val id: String,
-    val puzzle: List<List<Int?>>,
+    val id: Int,
+    val puzzle: List<List<Int>>,
     val solution: List<List<Int>>,
-    val difficulty: LevelChoiceEnum
+    val difficulty: String
 )

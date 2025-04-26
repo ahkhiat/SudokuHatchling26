@@ -34,7 +34,7 @@ fun InputFormTextField(
         onValueChange = onValueChange,
         textStyle = TextStyle(
             fontFamily = FontFamily.Monospace,
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             color = YellowFont
         ),
         shape = RoundedCornerShape(25.dp),

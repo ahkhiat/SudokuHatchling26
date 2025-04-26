@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.R
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CardLevelChoice
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.MinimalDropdownMenu
@@ -46,14 +48,21 @@ import com.devid_academy.sudokuhatchling26.ui.theme.GreyBackground
 import com.devid_academy.sudokuhatchling26.ui.theme.PerfectPenmanshipFamily
 import com.devid_academy.sudokuhatchling26.ui.theme.RecoletaFamily
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
+import org.koin.androidx.compose.koinViewModel
 import kotlin.random.Random
 
 @Composable
 fun GameScreen(
     navController: NavController,
-//    difficultyIndex: Int
     difficultyLevelName: LevelChoiceEnum
 ) {
+    val viewModel: GameViewModel = koinViewModel()
+
+    LaunchedEffect(difficultyLevelName) {
+        viewModel.setDifficultyIndex(difficultyLevelName)
+        viewModel.getGrid()
+    }
+
     GameContent(
         difficultyLevelName = difficultyLevelName,
         onExitClick = {
@@ -133,7 +142,7 @@ private fun GameContent(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 100.dp)
+                        .padding(top = 70.dp)
                 )
                 Text(
                     text = context.getString(R.string.game_title_line2),
@@ -142,18 +151,19 @@ private fun GameContent(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 130.dp)
+                        .padding(top = 100.dp)
                 )
                 Column(
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(horizontal = 20.dp)
+                        .align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // contenu
 
                     FinalGrid(
                         modifier = Modifier
-                            .padding(top = 50.dp)
+                            .padding(top = 50.dp),
+
                     )
 
                     SudokuKeyboard(
@@ -165,7 +175,7 @@ private fun GameContent(
                             Log.d("DELETE CLICKED", "Delete clicked")
                         },
                         modifier = Modifier
-                            .padding(top= 50.dp)
+                            .padding(top= 15.dp)
                     )
                 }
                 CustomButton(
