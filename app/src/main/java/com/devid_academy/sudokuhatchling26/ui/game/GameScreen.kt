@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,6 +58,7 @@ fun GameScreen(
     difficultyLevelName: LevelChoiceEnum
 ) {
     val viewModel: GameViewModel = koinViewModel()
+    val grid = viewModel.gridStateFlow.collectAsState()
 
     LaunchedEffect(difficultyLevelName) {
         viewModel.setDifficultyIndex(difficultyLevelName)
@@ -65,6 +67,7 @@ fun GameScreen(
 
     GameContent(
         difficultyLevelName = difficultyLevelName,
+        grid = grid.value,
         onExitClick = {
             navController.popBackStack()
         }
@@ -74,6 +77,7 @@ fun GameScreen(
 @Composable
 private fun GameContent(
     difficultyLevelName: LevelChoiceEnum,
+    grid : List<List<Int>> = emptyList(),
     onMenuClick: () -> Unit = {},
     onExitClick: () -> Unit
 ) {
@@ -159,12 +163,20 @@ private fun GameContent(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // contenu
-
-                    FinalGrid(
-                        modifier = Modifier
-                            .padding(top = 50.dp),
-
-                    )
+                    if (grid.isNotEmpty()) {
+                        FinalGrid(
+                            numbers = grid,
+                            modifier = Modifier.padding(top = 50.dp),
+                            onClick = {}
+                        )
+                    } else {
+                        Text("Chargement de la grille...", modifier = Modifier.padding(16.dp))
+                    }
+//                    FinalGrid(
+//                        modifier = Modifier
+//                            .padding(top = 50.dp),
+//
+//                    )
 
                     SudokuKeyboard(
                         onNumberClick = { number ->
@@ -195,7 +207,9 @@ private fun GameContent(
 
 @Composable
 fun FinalGrid(
-    modifier: Modifier = Modifier
+    numbers: List<List<Int?>?> = emptyList(),
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -203,25 +217,23 @@ fun FinalGrid(
         for (i in 0 .. 2) {
             Row() {
                 for (j in 0 .. 2) {
-                    GridSquareOfNine()
+                    GridSquareOfNine(
+                        numbers = numbers[i * 3 + j],
+                        onClick = onClick
+                    )
                 }
             }
         }
     }
 }
 
-@Composable
-fun GridCase() {
-    Box(
-        modifier = Modifier
-            .size(36.dp)
-            .background(Color.White)
-            .border(BorderStroke(1.dp, Color.LightGray) )
-    )
-}
+
 
 @Composable
-fun GridSquareOfNine() {
+fun GridSquareOfNine(
+    numbers: List<Int?>? = emptyList(),
+    onClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .border(BorderStroke(1.dp, Color.Black))
@@ -229,10 +241,40 @@ fun GridSquareOfNine() {
         for (i in 0 .. 2) {
             Row() {
                 for (j in 0 .. 2) {
-                    GridCase()
+                    GridCase(
+                        value = numbers?.get(i * 3 + j),
+                        isEditable = numbers?.get(i * 3 + j) == 0,
+                        onClick = onClick
+                    )
                 }
             }
         }
+    }
+}
+
+@Composable
+fun GridCase(
+    value : Int?,
+    isEditable: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(36.dp)
+            .background(if (isEditable) Color.White else Color.LightGray)
+            .border(BorderStroke(0.5.dp, Color.Gray) )
+    ) {
+        if(value != null && value != 0 ) {
+            Text(
+                text = value.toString(),
+                fontSize = 20.sp,
+                fontFamily = RecoletaFamily,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+            )
+        }
+
     }
 }
 
@@ -316,6 +358,18 @@ fun NumberButton(number: Int, onClick: () -> Unit) {
 private fun GameContentPreview() {
     GameContent(
         difficultyLevelName = LevelChoiceEnum.Beginner,
+        grid = listOf(
+            listOf(1, 2, 3, 0, 5, 6, 0, 8, 0),
+            listOf(4, 0, 0, 7, 8, 0, 0, 2, 3),
+            listOf(0, 5, 0, 7, 8, 9, 1, 0, 3),
+            listOf(0, 0, 6, 7, 8, 9, 0, 0, 0),
+            listOf(4, 5, 0, 7, 0, 0, 0, 2, 3),
+            listOf(0, 0, 6, 0, 0, 9, 1, 0, 0),
+            listOf(0, 5, 0, 0, 8, 9, 1, 2, 3),
+            listOf(4, 5, 0, 0, 8, 0, 0, 2, 0),
+            listOf(0, 5, 6, 7, 0, 9, 1, 2, 3),
+
+        ),
         onExitClick = {}
     )
 }

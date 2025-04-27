@@ -16,6 +16,9 @@ class GameViewModel(
     private val _difficultyIndexStateFlow = MutableStateFlow<LevelChoiceEnum>(LevelChoiceEnum.Beginner)
     val difficultyIndexStateFlow: StateFlow<LevelChoiceEnum> = _difficultyIndexStateFlow
 
+    private val _gridStateFlow = MutableStateFlow<List<List<Int>>>(emptyList())
+    val gridStateFlow : MutableStateFlow<List<List<Int>>> = _gridStateFlow
+
     fun setDifficultyIndex(difficultyIndex: LevelChoiceEnum) {
         _difficultyIndexStateFlow.value = difficultyIndex
     }
@@ -24,6 +27,9 @@ class GameViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val result = gameRepository.getRandomGridByDifficulty(difficultyIndexStateFlow.value)
             Log.i("GAME VM", "Niveau : ${difficultyIndexStateFlow.value}, Grid : $result")
+            result?.let {
+                _gridStateFlow.value = result.puzzle
+            }
         }
     }
 
