@@ -60,11 +60,7 @@ fun RegisterScreen(
         viewModel.registerSharedFlow.collect { event ->
             when (event) {
                 is RegisterEvent.NavigateToUserName -> {
-                    navController.navigate(Screen.Username.route) {
-                        popUpTo(Screen.Register.route) {
-                            inclusive = true
-                        }
-                    }
+                    navController.navigate(Screen.Username.route)
                 }
                 is RegisterEvent.ShowDialog -> {
                     dialogMessageResId = event.resId

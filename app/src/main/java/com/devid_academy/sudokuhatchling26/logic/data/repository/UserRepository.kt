@@ -59,6 +59,7 @@ class UserRepository(
         }
     }
 
+    // Ne fonctionne pas car Supabase empeche la lecture de la table users quand on n'est pas autentifié
     suspend fun checkIfEmailExists(email: String): Boolean {
         val result = client.postgrest.rpc(
             function = "email_exists",
@@ -80,11 +81,20 @@ class UserRepository(
 
     }
 
-    suspend fun logoutUser() = withContext(Dispatchers.IO) {
-        client.auth.signOut()
+    suspend fun logoutUser()
+        = withContext(Dispatchers.IO) {
+            client.auth.signOut()
     }
 
-    fun registerUser() {
+    suspend fun registerUser(email: String, password: String, username: String)
+        = withContext(Dispatchers.IO) {
+            val response = client.auth.signUpWith(Email) {
+                this.email = email
+                this.password = password
+                this.data = buildJsonObject {
+                    put("username", JsonPrimitive("username"))
+                }
 
+            }
     }
 }

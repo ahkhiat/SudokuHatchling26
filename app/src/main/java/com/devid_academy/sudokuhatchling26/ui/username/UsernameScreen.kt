@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -64,14 +65,24 @@ fun UsernameScreen(
     navController: NavController,
     viewModel: RegisterViewModel
 ) {
+    val usernameStateFlow by viewModel.username.collectAsState()
 
-    UsernameContent()
+    UsernameContent(
+        usernameStateFlow = usernameStateFlow,
+        onUsernameChange = viewModel::onUsernameChange,
+        onRegister = {
+            viewModel.registerUser()
+        }
+    )
 }
 
 @Composable
-private fun UsernameContent() {
+private fun UsernameContent(
+    usernameStateFlow: String,
+    onUsernameChange: (String) -> Unit,
+    onRegister: () -> Unit = {}
+) {
     val context = LocalContext.current
-    var username by remember { mutableStateOf("") }
 
     Box(
         modifier = Modifier
@@ -122,8 +133,8 @@ private fun UsernameContent() {
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
                 OutlinedTextField(
-                    value = username,
-                    onValueChange = { username = it },
+                    value = usernameStateFlow,
+                    onValueChange = { onUsernameChange(it) },
                     singleLine = true,
                     visualTransformation = UppercaseTransformation(),
                     textStyle = TextStyle(
@@ -169,17 +180,9 @@ private fun UsernameContent() {
 
                 imageBackground = R.drawable.button_red,
                 text = R.string.button_continue,
-                onClick = { }
+                onClick = onRegister
             )
-
-
-
         }
-
-
-
-
-
     }
 }
 
@@ -193,5 +196,9 @@ class UppercaseTransformation : VisualTransformation {
 @Preview(showBackground = true)
 @Composable
 private fun UsernamePreview() {
-    UsernameContent()
+    UsernameContent(
+        usernameStateFlow = "",
+        onUsernameChange = {},
+        onRegister = {}
+    )
 }

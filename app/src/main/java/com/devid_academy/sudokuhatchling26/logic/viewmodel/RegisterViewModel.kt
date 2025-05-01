@@ -36,13 +36,14 @@ class RegisterViewModel(
     fun onEmailChanged(newEmail: String) {
         _email.value = newEmail
     }
-
     fun onPasswordChanged(newPassword: String) {
         _password.value = newPassword
     }
-
     fun onPasswordConfirmChanged(newPasswordConfirm: String) {
         _passwordConfirm.value = newPasswordConfirm
+    }
+    fun onUsernameChange(newUsername: String) {
+        _username.value = newUsername
     }
 
     private fun arePasswordsAreSame(): Boolean {
@@ -93,22 +94,17 @@ class RegisterViewModel(
         val cleanedPassword = password.value.trim()
         val cleanedUsername = username.value.trim()
 
-        // Re ecrire la méthode dans le repo et l'appeler
-
-//        viewModelScope.launch {
-//            try {
-//                val response = client.auth.signUpWith(Email) {
-//                    this.email = cleanedEmail
-//                    this.password = cleanedPassword
-//                }
-//
-//            } catch(e: Exception) {
-//                Log.e("REGISTER VM", "Erreur Catch : ${e.message}")
-//            }
-//        }
-// 123456
-
-
+        viewModelScope.launch {
+            try {
+                userRepository.registerUser(
+                    cleanedEmail,
+                    cleanedPassword,
+                    cleanedUsername
+                )
+            } catch(e: Exception) {
+                Log.e("REGISTER VM", "Erreur Catch : ${e.message}")
+            }
+        }
     }
 
 
