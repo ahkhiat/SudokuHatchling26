@@ -23,12 +23,11 @@ class LoginViewModel(
         val cleanedPassword = password.trim()
         viewModelScope.launch {
             try {
-
                 userRepository.loginUser(
                     cleanedEmail,
                     cleanedPassword
                 )
-                _loginSharedFlow.emit(userRepository.getUserSession())
+//                _loginSharedFlow.emit(userRepository.getUserSession())
             } catch(e: Exception) {
                 Log.e("LOGIN VM", "Erreur Catch : ${e.message}")
             }

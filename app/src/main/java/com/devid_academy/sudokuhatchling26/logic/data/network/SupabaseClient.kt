@@ -13,8 +13,6 @@ import io.ktor.client.plugins.HttpTimeout
 
 
 class SupabaseModule {
-
-
     val client = createSupabaseClient(
         supabaseUrl = "https://yfuztgoyvnsawrmhlfat.supabase.co",
         supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmdXp0Z295dm5zYXdybWhsZmF0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MDc4ODUsImV4cCI6MjA2MDM4Mzg4NX0.HGzZIoXlLymsVqAmIgTOtCkvj-R2xd6UNdkLeAKYD4k"
@@ -22,7 +20,4 @@ class SupabaseModule {
         install(Auth)
         install(Postgrest)
     }
-
-
-
 }

@@ -2,8 +2,6 @@ package com.devid_academy.sudokuhatchling26.ui.welcomepage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.platform.LocalContext
-import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
+import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 
 

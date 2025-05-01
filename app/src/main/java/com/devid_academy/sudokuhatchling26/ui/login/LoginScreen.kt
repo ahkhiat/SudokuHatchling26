@@ -34,7 +34,7 @@ import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.LoginViewModel
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.InputFormTextField
-import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
+import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 import org.koin.androidx.compose.koinViewModel
 

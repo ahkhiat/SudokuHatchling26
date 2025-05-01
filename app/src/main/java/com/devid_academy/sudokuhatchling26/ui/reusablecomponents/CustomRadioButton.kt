@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -27,7 +28,8 @@ fun CustomRadioButton(
     Box(
         modifier = modifier
             .size(36.dp)
-            .clickable { onClick() },
+            .clip(CircleShape)
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Box(
@@ -35,13 +37,11 @@ fun CustomRadioButton(
                 .size(36.dp)
                 .background(color = emptyColor, shape = CircleShape)
         )
-
         if (selected) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
-//
                 Box(
                     modifier = Modifier
                         .size(36.dp)

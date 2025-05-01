@@ -21,7 +21,7 @@ class ChooseLevelViewModel(
             withContext(Dispatchers.IO) {
                 userRepository.logoutUser()
             }
-            _chooseLevelSharedFlow.emit(AuthEvent.NavigateToLogin)
+//            _chooseLevelSharedFlow.emit(AuthEvent.NavigateToLogin)
         }
     }
 }

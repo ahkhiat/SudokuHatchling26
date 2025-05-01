@@ -1,80 +1,39 @@
 package com.devid_academy.sudokuhatchling26.ui.splash
 
-import android.window.SplashScreen
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.devid_academy.sudokuhatchling26.R
-import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.SplashViewModel
-import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.YellowColor
-import kotlinx.coroutines.delay
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun SplashScreen(
-    navController: NavController,
-    splashViewModel: SplashViewModel
-) {
+fun SplashScreen() {
+    val splashViewModel: SplashViewModel = koinViewModel()
+
     val isLoadingFromVM by splashViewModel.isLoading.collectAsState()
     val showFirstSplash by splashViewModel.showFirstSplash.collectAsState()
     val showSecondSplash by splashViewModel.showSecondSplash.collectAsState()
     val animateEggs by splashViewModel.animateEggs.collectAsState()
-
-    LaunchedEffect(true) {
-        splashViewModel.loginSharedFlow.collect { event ->
-            when(event) {
-                is AuthEvent.NavigateToChooseLevel ->
-                    navController.navigate(Screen.ChooseLevel.route) {
-                        popUpTo("splash") {
-                            inclusive = true
-                        }
-                    }
-                is AuthEvent.NavigateToOnBoarding ->
-                    navController.navigate(Screen.OnBoardingOne.route) {
-                        popUpTo("splash") {
-                            inclusive = true
-                        }
-                    }
-                is AuthEvent.ShowSnackBar -> {
-
-                }
-                else -> {
-
-                }
-
-            }
-        }
-    }
 
     SplashContent(
         isLoading = isLoadingFromVM,

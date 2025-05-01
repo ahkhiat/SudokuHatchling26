@@ -1,19 +1,48 @@
 package com.devid_academy.sudokuhatchling26.logic.data.repository
 
+import android.util.Log
+import com.devid_academy.sudokuhatchling26.logic.enum.AuthentificationStateEnum
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.status.SessionSource
 import io.github.jan.supabase.auth.status.SessionStatus
+import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 class UserRepository(
     private val client: SupabaseClient
 ) {
+    private val userState = MutableStateFlow(AuthentificationStateEnum.Splash)
+    fun observeUserState(): StateFlow<AuthentificationStateEnum> = userState
+
+    suspend fun checkSupabaseSession() {
+        client.auth.sessionStatus.collect {
+            when (it) {
+                is SessionStatus.Authenticated -> userState.value =
+                    AuthentificationStateEnum.Authenticated
+
+                is SessionStatus.NotAuthenticated -> userState.value =
+                    AuthentificationStateEnum.Unauthenticated
+
+                is SessionStatus.Initializing -> userState.value = AuthentificationStateEnum.Splash
+                is SessionStatus.RefreshFailure -> userState.value =
+                    AuthentificationStateEnum.Unauthenticated
+
+            }
+        }
+    }
 
     suspend fun getUserSession(): AuthEvent {
         return try {
@@ -30,6 +59,16 @@ class UserRepository(
         }
     }
 
+    suspend fun checkIfEmailExists(email: String): Boolean {
+        val result = client.postgrest.rpc(
+            function = "email_exists",
+            parameters = buildJsonObject {
+                put("p_email", JsonPrimitive(email))
+            }
+        )
+        Log.i("SUPABASE", "Supabase RPC response = ${result.data}, type = ${result.data?.javaClass?.name}")
+        return result.data as? Boolean ?: false
+    }
 
     suspend fun loginUser(email: String, password: String)
         = withContext(Dispatchers.IO) {

@@ -50,5 +50,12 @@
     <string name="game_title_line1">Tap a box and select a number from below</string>
     <string name="game_title_line2">to fill the Sudoku board.</string>
     <string name="solve">Solve</string>
+    <string name="empty_string" />
+    <string name="entername_tell_your_name">Tell me your name</string>
+    <string name="button_continue">Continue</string>
+    <string name="password_not_same">Passwords are differents</string>
+    <string name="email_not_valid">Email is not a valid form</string>
+    <string name="please_fill_inputs">Please fill all inputs</string>
+    <string name="email_already_taken">Email already exists in DB !</string>
 
 </resources>

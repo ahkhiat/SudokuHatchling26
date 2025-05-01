@@ -28,7 +28,7 @@ import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.ChooseLevelViewModel
-import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
+import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CardLevelChoice
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.MinimalDropdownMenu

@@ -23,7 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.devid_academy.sudokuhatchling26.ui.navigation.Screen
+import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 
 

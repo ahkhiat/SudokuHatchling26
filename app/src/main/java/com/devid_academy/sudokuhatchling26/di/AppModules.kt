@@ -8,6 +8,7 @@ import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.LoginViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.RegisterViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.SplashViewModel
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -21,11 +22,12 @@ val databaseModule = module {
 
 
 val viewModelsModule = module {
-    viewModel { RegisterViewModel(get()) }
+    viewModel { RegisterViewModel(get(), get()) }
     viewModel { SplashViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { ChooseLevelViewModel(get()) }
     viewModel { GameViewModel(get()) }
+    viewModel { UserViewModel(get()) }
 }
 
 
