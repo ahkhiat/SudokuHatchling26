@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devid_academy.sudokuhatchling26.logic.data.repository.UserRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -27,9 +28,15 @@ class LoginViewModel(
                     cleanedEmail,
                     cleanedPassword
                 )
-//                _loginSharedFlow.emit(userRepository.getUserSession())
-            } catch(e: Exception) {
-                Log.e("LOGIN VM", "Erreur Catch : ${e.message}")
+
+//                val currentUser = userRepository.getCurrentUser()
+//                Log.i("LOGIN VM", "currentUser = $currentUser")
+
+//                val currentSession = userRepository.getUserSession()
+//                Log.i("LOGIN VM", "currentSession = $currentSession")
+
+            } catch (e: Exception) {
+                Log.e("LOGIN VM", "Erreur lors du login ou de la récupération : ${e.message}")
             }
         }
     }

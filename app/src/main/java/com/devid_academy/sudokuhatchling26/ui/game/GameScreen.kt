@@ -72,9 +72,9 @@ import kotlin.random.Random
 @Composable
 fun GameScreen(
     navController: NavController,
+    viewModel: GameViewModel,
     difficultyLevelName: LevelChoiceEnum
 ) {
-    val viewModel: GameViewModel = koinViewModel()
     val grid = viewModel.gridStateFlow.collectAsState()
     val editableCells = viewModel.editableCells
 
@@ -110,7 +110,8 @@ private fun GameContent(
     ScaffoldComposable(
         modifier = Modifier
             .fillMaxSize()
-            .background(GreyBackground),
+            .background(GreyBackground)
+            .padding(16.dp),
         content = { paddingValues ->
             val context = LocalContext.current
             Box(

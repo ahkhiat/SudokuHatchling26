@@ -54,3 +54,7 @@ val RecoletaFamily = FontFamily(
         FontWeight.Normal
     )
 )
+
+val MontserratAlternatesFamily = FontFamily(
+    Font(R.font.montserrat_alternates_regular, FontWeight.Normal),
+)

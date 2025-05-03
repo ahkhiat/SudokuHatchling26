@@ -62,7 +62,6 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
-
     // Supabase
     val supabaseVersion = "3.1.4"
     implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
@@ -89,5 +88,7 @@ dependencies {
 
     // Shapes
     implementation ("androidx.graphics:graphics-shapes:1.0.1")
+
+
 
 }

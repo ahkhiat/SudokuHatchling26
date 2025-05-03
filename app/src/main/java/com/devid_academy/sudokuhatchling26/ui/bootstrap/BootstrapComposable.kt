@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.devid_academy.sudokuhatchling26.logic.enum.AuthentificationStateEnum
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.RegisterViewModel
 import com.devid_academy.sudokuhatchling26.ui.chooselevel.ChooseLevelScreen
 import com.devid_academy.sudokuhatchling26.ui.login.LoginScreen
@@ -19,6 +20,7 @@ import com.devid_academy.sudokuhatchling26.ui.onboarding.OnBoardingTwoScreen
 import com.devid_academy.sudokuhatchling26.ui.register.RegisterScreen
 import com.devid_academy.sudokuhatchling26.ui.splash.SplashScreen
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.UserViewModel
+import com.devid_academy.sudokuhatchling26.ui.completed.CompletedScreen
 import com.devid_academy.sudokuhatchling26.ui.game.GameScreen
 import com.devid_academy.sudokuhatchling26.ui.username.UsernameScreen
 import com.devid_academy.sudokuhatchling26.ui.welcomepage.WelcomePageScreen
@@ -51,9 +53,17 @@ fun AuthenticatedNavHost(navController: NavHostController) {
             route = Screen.GameScreen.route + "/{difficulty}",
             arguments = listOf(navArgument("difficulty") { type = NavType.StringType })
         ) {
+            val gameBackStackEntry = it
             val difficultyString = it.arguments?.getString("difficulty") ?: LevelChoiceEnum.Beginner.name
             val difficulty = LevelChoiceEnum.valueOf(difficultyString)
-            GameScreen(navController, difficulty)
+
+            val gameViewModel: GameViewModel = koinViewModel()
+
+            GameScreen(navController, gameViewModel, difficulty)
+        }
+        composable(route = Screen.Completed.route) {
+            val gameViewModel: GameViewModel = koinViewModel()
+            CompletedScreen(navController, gameViewModel)
         }
     }
 }
@@ -101,4 +111,5 @@ sealed class Screen(val route: String) {
     object ChooseLevel: Screen("choose_level")
     object GameScreen: Screen("game_screen")
     object Username: Screen("username")
+    object Completed: Screen("completed")
 }

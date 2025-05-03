@@ -1,6 +1,7 @@
 package com.devid_academy.sudokuhatchling26.logic.data.repository
 
 import android.util.Log
+import com.devid_academy.sudokuhatchling26.logic.data.dto.ProfileDTO
 import com.devid_academy.sudokuhatchling26.logic.enum.AuthentificationStateEnum
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import io.github.jan.supabase.SupabaseClient
@@ -8,6 +9,7 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.status.SessionSource
 import io.github.jan.supabase.auth.status.SessionStatus
+import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,19 +46,44 @@ class UserRepository(
         }
     }
 
-    suspend fun getUserSession(): AuthEvent {
-        return try {
-            val status = client.auth.sessionStatus
-                .filterIsInstance<SessionStatus.Authenticated>()
-                .first()
-            when (status.source) {
-                is SessionSource.SignIn -> AuthEvent.NavigateToChooseLevel
-                is SessionSource.SignUp -> AuthEvent.NavigateToChooseLevel
-                else -> AuthEvent.Unknown
-            }
+    // Ne fonctionne pas
+    suspend fun getUserSession() {
+        try {
+            val session = client.auth.currentSessionOrNull()
+            Log.i("SUPABASE", "currentSession = $session")
         } catch (e: Exception) {
-            AuthEvent.Error
+            Log.e("SUPABASE", "Erreur lors de la récupération de la session : ${e.message}")
         }
+    }
+
+    // Ne fonctionne pas
+    suspend fun getCurrentUser() {
+        val user = client.auth.retrieveUserForCurrentSession(updateSession = true)
+
+        Log.i("SUPABASE", "currentUser = $user")
+    }
+
+    suspend fun getUsernameFromProfile(): String? {
+        return try {
+            val userId = client.auth.currentUserOrNull()?.id
+            if (userId == null) {
+                Log.e("SUPABASE", "Aucun utilisateur connecté")
+                return null
+            }
+            val response = client
+                .from("profiles")
+                .select {
+                    filter {
+                        eq("id", userId)
+                    }
+                }
+                .decodeSingle<ProfileDTO>()
+            response.username
+        } catch (e: Exception) {
+            Log.e("SUPABASE", "Erreur lors de la récupération du username : ${e.message}")
+            null
+        }
+
     }
 
     // Ne fonctionne pas car Supabase empeche la lecture de la table users quand on n'est pas autentifié
@@ -77,7 +104,6 @@ class UserRepository(
                 this.email = email
                 this.password = password
             }
-//            println("Connecté avec : ${session.}")
 
     }
 
@@ -92,9 +118,9 @@ class UserRepository(
                 this.email = email
                 this.password = password
                 this.data = buildJsonObject {
-                    put("username", JsonPrimitive("username"))
+                    put("username", JsonPrimitive(username))
                 }
-
             }
+            Log.i("SUPABASE", "Supabase response = ${response}")
     }
 }

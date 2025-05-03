@@ -30,7 +30,8 @@ fun ScaffoldComposable(
         Column(
             modifier = modifier
                 .padding(innerPadding)
-                .padding(16.dp),
+//                .padding(16.dp)
+            ,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             content(innerPadding)
