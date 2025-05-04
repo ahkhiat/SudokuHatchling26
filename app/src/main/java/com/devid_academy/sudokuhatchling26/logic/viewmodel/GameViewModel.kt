@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.devid_academy.sudokuhatchling26.logic.data.repository.GameRepository
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
@@ -24,6 +26,9 @@ class GameViewModel(
 
     private var _editableCells: List<Boolean> = emptyList()
     val editableCells: List<Boolean> get() = _editableCells
+
+    private val _navigateToCompleteSharedFlow = MutableSharedFlow<NavigateSharedFlow>()
+    val navigateToCompleteSharedFlow: SharedFlow<NavigateSharedFlow> = _navigateToCompleteSharedFlow
 
     fun setDifficultyIndex(difficultyIndex: LevelChoiceEnum) {
         _difficultyIndexStateFlow.value = difficultyIndex
@@ -55,21 +60,24 @@ class GameViewModel(
         val currentGrid = _gridStateFlow.value
         val solutionGrid = _gridSolutionStateFlow.value
 
-        if (currentGrid == solutionGrid) {
-            Log.i("GAME VM", "Grid solved!")
-        } else {
-            Log.i("GAME VM", "Grid not solved yet.")
+        viewModelScope.launch {
+            if (currentGrid == solutionGrid) {
+                Log.i("GAME VM", "Grid solved!")
+                _navigateToCompleteSharedFlow.emit(NavigateSharedFlow.NavigateToCompleted)
+            } else {
+                Log.i("GAME VM", "Grid not solved yet.")
+                _navigateToCompleteSharedFlow.emit(NavigateSharedFlow.NavigateToChooseLevel)
+            }
         }
+
     }
 
     fun solvePuzzle() {
         _gridStateFlow.value = _gridSolutionStateFlow.value
     }
+}
 
-
-
-
-
-
-
+sealed class NavigateSharedFlow {
+    data object NavigateToCompleted: NavigateSharedFlow()
+    data object NavigateToChooseLevel: NavigateSharedFlow()
 }

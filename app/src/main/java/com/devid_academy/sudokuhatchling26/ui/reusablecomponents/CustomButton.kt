@@ -25,6 +25,7 @@ fun CustomButton(
     modifier: Modifier = Modifier,
     imageBackground: Int,
     text: Int,
+    textColor: Color = Color.White,
     onClick: () -> Unit
 ) {
     Button(
@@ -48,7 +49,7 @@ fun CustomButton(
                 fontSize = 32.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center,
-                color = Color.White
+                color = textColor
             )
         }
     }

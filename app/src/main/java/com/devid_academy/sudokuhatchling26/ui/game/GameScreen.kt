@@ -56,6 +56,8 @@ import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.R
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.NavigateSharedFlow
+import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CardLevelChoice
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.MinimalDropdownMenu
@@ -81,6 +83,18 @@ fun GameScreen(
     LaunchedEffect(difficultyLevelName) {
         viewModel.setDifficultyIndex(difficultyLevelName)
         viewModel.getGrid()
+    }
+    LaunchedEffect(Unit) {
+        viewModel.navigateToCompleteSharedFlow.collect { navigationEvent ->
+            when (navigationEvent) {
+                NavigateSharedFlow.NavigateToCompleted -> {
+                    navController.navigate(Screen.Completed.route)
+                }
+                NavigateSharedFlow.NavigateToChooseLevel -> {
+                    navController.navigate(Screen.ChooseLevel.route)
+                }
+            }
+        }
     }
     GameContent(
         difficultyLevelName = difficultyLevelName,
