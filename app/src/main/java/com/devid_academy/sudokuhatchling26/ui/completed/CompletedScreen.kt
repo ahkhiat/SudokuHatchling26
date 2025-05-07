@@ -1,6 +1,7 @@
 package com.devid_academy.sudokuhatchling26.ui.completed
 
 import android.graphics.fonts.FontStyle
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -42,6 +43,7 @@ import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.R
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.CompletedViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
+import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.MinimalDropdownMenu
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.ScaffoldComposable
@@ -64,21 +66,36 @@ fun CompletedScreen(
     val username = completedViewModel.usernameStateFlow.collectAsState()
     val wellDoneMessage = stringResource(R.string.well_done, username.value)
     var visible by remember { mutableStateOf(false) }
+    val levelNameState = gameViewModel.difficultyIndexStateFlow.collectAsState()
+    val scoreEarned = levelNameState.value.scoreValue
+    val levelName = levelNameState.value.name
 
+    val levelValue = 1
+    val levelLabel = stringResource(R.string.level, levelName, levelValue)
+
+    Log.i("CompletedScreen", "Level label from diffIndexStateFlow from GameVM: ${levelName}")
     LaunchedEffect(Unit) {
         visible = true
     }
 
     CompletedContent(
         wellDoneMessage = wellDoneMessage,
-        visible = visible
+        levelLabel = levelLabel,
+        scoreEarned = scoreEarned,
+        visible = visible,
+        onNavigateToChooseLevel = {
+            navController.navigate(Screen.ChooseLevel.route)
+        }
     )
 }
 
 @Composable
 private fun CompletedContent(
     wellDoneMessage: String,
-    visible: Boolean
+    levelLabel: String,
+    scoreEarned: Int,
+    visible: Boolean,
+    onNavigateToChooseLevel: () -> Unit = {}
 ) {
     ScaffoldComposable(
         modifier = Modifier
@@ -102,14 +119,14 @@ private fun CompletedContent(
                     Box(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
-                            .padding(top= 100.dp)
+                            .padding(top = 100.dp)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.felicitations),
                             contentDescription = null,
                         )
                         Text(
-                            text = "EggShell level 1",
+                            text = levelLabel,
                             color = Color.White,
                             fontFamily = MontserratAlternatesFamily,
                             fontSize = 18.sp,
@@ -118,7 +135,7 @@ private fun CompletedContent(
                                 .padding(top = 115.dp)
                         )
                         Text(
-                            text = "COMPLETED",
+                            text = stringResource(R.string.completed),
                             color = Color.White,
                             fontFamily = SummaryNotesFamily,
                             fontSize = 46.sp,
@@ -157,7 +174,7 @@ private fun CompletedContent(
                                     .width(80.dp)
                             )
                             Text(
-                                text = "x10",
+                                text = scoreEarned.toString(),
                                 color = OrangeFont,
                                 fontFamily = MontserratAlternatesFamily,
                                 fontSize = 30.sp,
@@ -174,11 +191,10 @@ private fun CompletedContent(
                             imageBackground = R.drawable.button_yellow,
                             text = R.string.button_continue,
                             textColor = Color.Black,
-                            onClick = { }
+                            onClick = onNavigateToChooseLevel
                         )
                     }
                 }
-
 
                 AnimatedVisibility(
                     visible = visible,
@@ -209,6 +225,8 @@ private fun CompletedContent(
 private fun CompletedPreview() {
     CompletedContent(
         wellDoneMessage = "Well done Thierry!",
+        levelLabel = "Gnagna",
+        scoreEarned = 5,
         visible = true
     )
 }

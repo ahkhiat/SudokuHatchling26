@@ -1,6 +1,7 @@
 package com.devid_academy.sudokuhatchling26.ui.bootstrap
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -8,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.devid_academy.sudokuhatchling26.logic.enum.AuthentificationStateEnum
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
@@ -49,22 +51,33 @@ fun AuthenticatedNavHost(navController: NavHostController) {
         composable(Screen.ChooseLevel.route) {
             ChooseLevelScreen(navController)
         }
-        composable(
-            route = Screen.GameScreen.route + "/{difficulty}",
-            arguments = listOf(navArgument("difficulty") { type = NavType.StringType })
+
+        navigation(
+            startDestination = Screen.GameScreen.route + "/{difficulty}",
+            route = "game_flow"
         ) {
-            val gameBackStackEntry = it
-            val difficultyString = it.arguments?.getString("difficulty") ?: LevelChoiceEnum.Beginner.name
-            val difficulty = LevelChoiceEnum.valueOf(difficultyString)
+            composable(
+                route = Screen.GameScreen.route + "/{difficulty}",
+                arguments = listOf(navArgument("difficulty") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry("game_flow")
+                }
+                val difficultyString = backStackEntry.arguments?.getString("difficulty") ?: LevelChoiceEnum.Beginner.name
+                val difficulty = LevelChoiceEnum.valueOf(difficultyString)
+                val gameViewModel: GameViewModel = koinViewModel(viewModelStoreOwner = parentEntry)
 
-            val gameViewModel: GameViewModel = koinViewModel()
+                GameScreen(navController, gameViewModel, difficulty)
+            }
+            composable(route = Screen.Completed.route) { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry("game_flow")
+                }
+                val gameViewModel: GameViewModel = koinViewModel(viewModelStoreOwner = parentEntry)
+                CompletedScreen(navController, gameViewModel)
+            }
+        }
 
-            GameScreen(navController, gameViewModel, difficulty)
-        }
-        composable(route = Screen.Completed.route) {
-            val gameViewModel: GameViewModel = koinViewModel()
-            CompletedScreen(navController, gameViewModel)
-        }
     }
 }
 

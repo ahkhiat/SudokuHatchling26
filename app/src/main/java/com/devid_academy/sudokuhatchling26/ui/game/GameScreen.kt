@@ -236,7 +236,9 @@ private fun GameContent(
                     SudokuKeyboard(
                         onNumberClick = { number ->
                             pickedNumber = number
-                            onSetNumber(pickedCase, pickedNumber)
+                            if (pickedCase != -1) {
+                                onSetNumber(pickedCase, pickedNumber)
+                            }
                             Log.i("CLICK", "PickedCase : $pickedCase, Number clicked : $pickedNumber, ")
                         },
                         onDeleteClick = {

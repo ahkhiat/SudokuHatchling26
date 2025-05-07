@@ -58,5 +58,7 @@
     <string name="please_fill_inputs">Please fill all inputs</string>
     <string name="email_already_taken">Email already exists in DB !</string>
     <string name="well_done">Well done, %1$s!</string>
+    <string name="completed">COMPLETED</string>
+    <string name="level">level</string>
 
 </resources>

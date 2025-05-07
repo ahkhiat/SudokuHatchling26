@@ -40,9 +40,13 @@ enum class LevelChoiceEnum {
             Expert -> R.drawable.level5
         }
 
-
-
-
-
+    val scoreValue: Int
+        get() = when (this) {
+            Beginner -> 1
+            Easy -> 2
+            Intermediate -> 3
+            Advanced -> 4
+            Expert -> 5
+        }
 
 }
