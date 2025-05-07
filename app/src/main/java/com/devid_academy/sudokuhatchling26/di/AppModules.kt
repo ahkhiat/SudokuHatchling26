@@ -6,6 +6,7 @@ import com.devid_academy.sudokuhatchling26.logic.data.repository.UserRepository
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.ChooseLevelViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.CompletedViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.GameViewModel
+import com.devid_academy.sudokuhatchling26.logic.viewmodel.HomeViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.LoginViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.RegisterViewModel
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.SplashViewModel
@@ -30,6 +31,7 @@ val viewModelsModule = module {
     viewModel { GameViewModel(get()) }
     viewModel { UserViewModel(get()) }
     viewModel { CompletedViewModel(get(), get()) }
+    viewModel { HomeViewModel(get()) }
 }
 
 

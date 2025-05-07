@@ -60,5 +60,8 @@
     <string name="well_done">Well done, %1$s!</string>
     <string name="completed">COMPLETED</string>
     <string name="level">level</string>
+    <string name="hello">"Hello, "</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="play">Play</string>
 
 </resources>

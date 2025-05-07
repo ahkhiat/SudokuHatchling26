@@ -24,6 +24,8 @@ import com.devid_academy.sudokuhatchling26.ui.splash.SplashScreen
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.UserViewModel
 import com.devid_academy.sudokuhatchling26.ui.completed.CompletedScreen
 import com.devid_academy.sudokuhatchling26.ui.game.GameScreen
+import com.devid_academy.sudokuhatchling26.ui.home.HomeScreen
+import com.devid_academy.sudokuhatchling26.ui.leaderboard.LeaderboardScreen
 import com.devid_academy.sudokuhatchling26.ui.username.UsernameScreen
 import com.devid_academy.sudokuhatchling26.ui.welcomepage.WelcomePageScreen
 import org.koin.androidx.compose.koinViewModel
@@ -46,8 +48,14 @@ fun BootstrapComposable() {
 fun AuthenticatedNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.ChooseLevel.route
+        startDestination = Screen.Home.route
     ) {
+        composable(Screen.Home.route) {
+            HomeScreen(navController)
+        }
+        composable(Screen.Leaderboard.route) {
+            LeaderboardScreen(navController)
+        }
         composable(Screen.ChooseLevel.route) {
             ChooseLevelScreen(navController)
         }
@@ -121,6 +129,8 @@ sealed class Screen(val route: String) {
     object OnBoardingTwo: Screen("on_boarding_two")
     object OnBoardingThree: Screen("on_boarding_three")
     object WelcomePage: Screen("welcome_page")
+    object Home: Screen("home")
+    object Leaderboard: Screen("leaderboard")
     object ChooseLevel: Screen("choose_level")
     object GameScreen: Screen("game_screen")
     object Username: Screen("username")
