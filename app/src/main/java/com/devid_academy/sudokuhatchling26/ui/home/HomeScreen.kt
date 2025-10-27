@@ -1,5 +1,6 @@
 package com.devid_academy.sudokuhatchling26.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,8 +44,9 @@ fun HomeScreen(
     val username = homeViewModel.usernameStateFlow.collectAsState()
     val helloMessage = stringResource(R.string.hello, username.value)
 
+    Log.i("HOME SCREEN", "username = ${username.value}")
 
-
+    Log.i("HOME SCREEN", "helloMessage = $helloMessage")
     HomeContent(
         helloMessage = helloMessage,
         onClickPlay = {
@@ -54,7 +56,7 @@ fun HomeScreen(
             navController.navigate(Screen.Leaderboard.route)
         },
         onLogout = {
-            homeViewModel::logoutUser
+            homeViewModel.logoutUser()
         }
     )
 }

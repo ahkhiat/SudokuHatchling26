@@ -15,9 +15,6 @@ class ChooseLevelViewModel(
     private val userRepository: UserRepository
 ): ViewModel() {
 
-    private val _chooseLevelSharedFlow = MutableSharedFlow<AuthEvent>()
-    val chooseLevelSharedFlow: SharedFlow<AuthEvent> = _chooseLevelSharedFlow
-
     private val _usernameStateFlow = MutableStateFlow<String>("")
     val usernameStateFlow: StateFlow<String> = _usernameStateFlow
 
@@ -39,7 +36,6 @@ class ChooseLevelViewModel(
             withContext(Dispatchers.IO) {
                 userRepository.logoutUser()
             }
-//            _chooseLevelSharedFlow.emit(AuthEvent.NavigateToLogin)
         }
     }
 }

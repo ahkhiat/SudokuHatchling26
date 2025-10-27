@@ -23,9 +23,6 @@ class SplashViewModel(
     private val _showSecondSplash = MutableStateFlow(false)
     val showSecondSplash: StateFlow<Boolean> = _showSecondSplash
 
-//    private val _loginSharedFlow = MutableSharedFlow<AuthEvent>()
-//    val loginSharedFlow: SharedFlow<AuthEvent> = _loginSharedFlow
-
     init {
         observeSession()
     }
@@ -46,8 +43,6 @@ class SplashViewModel(
             delay(3000)
 
             userRepository.checkSupabaseSession()
-
-
             _isLoading.value = false
         }
     }

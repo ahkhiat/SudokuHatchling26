@@ -2,6 +2,7 @@ package com.devid_academy.sudokuhatchling26.logic.data.repository
 
 import android.util.Log
 import com.devid_academy.sudokuhatchling26.logic.data.dto.GridSupabaseDTO
+import com.devid_academy.sudokuhatchling26.logic.data.dto.LeaderboardItemDTO
 import com.devid_academy.sudokuhatchling26.logic.data.dto.PlaysGridDTO
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
 import io.github.jan.supabase.SupabaseClient
@@ -12,7 +13,6 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.*
 
 
 class GameRepository(
@@ -118,6 +118,19 @@ class GameRepository(
             Log.i("GAME REPO", "Score updated successfully! score + $score")
         } catch (e: Exception) {
             Log.e("GAME REPO", "Error updating score: ${e.message}", e)
+        }
+    }
+
+    suspend fun getLeaderboard(): List<LeaderboardItemDTO>? {
+        return try {
+            val response = client
+                .postgrest
+                .rpc("get_leaderboard")
+                .decodeList<LeaderboardItemDTO>()
+            response
+        } catch (e: Exception) {
+            Log.e("GAME REPO", "Error fetching leaderboard: ${e.message}", e)
+            null
         }
     }
 

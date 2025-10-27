@@ -1,8 +1,10 @@
 package com.devid_academy.sudokuhatchling26.logic.viewmodel
 
 import android.util.Log
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.devid_academy.sudokuhatchling26.R
 import com.devid_academy.sudokuhatchling26.logic.data.repository.GameRepository
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +14,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.annotation.StringRes
+
 
 class GameViewModel(
     private val gameRepository: GameRepository
@@ -106,11 +110,10 @@ class GameViewModel(
                     updatePlaysGrid(playsGridId, _gridStateFlow.value, isCompleted = true)
                     updateUserScore(difficultyIndexStateFlow.value.scoreValue)
                 }
-
                 _navigateToCompleteSharedFlow.emit(NavigateSharedFlow.NavigateToCompleted)
             } else {
                 Log.i("GAME VM", "Grid not solved yet.")
-                _navigateToCompleteSharedFlow.emit(NavigateSharedFlow.NavigateToChooseLevel)
+                _navigateToCompleteSharedFlow.emit(NavigateSharedFlow.ShowMessageDialog(R.string.grid_not_solved))
             }
         }
     }
@@ -143,4 +146,5 @@ class GameViewModel(
 sealed class NavigateSharedFlow {
     data object NavigateToCompleted: NavigateSharedFlow()
     data object NavigateToChooseLevel: NavigateSharedFlow()
+    data class ShowMessageDialog(val message: Int): NavigateSharedFlow()
 }

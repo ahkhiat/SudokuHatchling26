@@ -3,7 +3,6 @@ package com.devid_academy.sudokuhatchling26.logic.data.repository
 import android.util.Log
 import com.devid_academy.sudokuhatchling26.logic.data.dto.ProfileDTO
 import com.devid_academy.sudokuhatchling26.logic.enum.AuthentificationStateEnum
-import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email

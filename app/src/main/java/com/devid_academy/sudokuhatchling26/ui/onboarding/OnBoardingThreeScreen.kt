@@ -78,13 +78,9 @@ fun OnBoardingThreeContent(
                 text = context.getString(R.string.onboarding3_text_line1),
                 fontSize = 24.sp,
                 fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = context.getString(R.string.onboarding3_text_line2),
-                fontSize = 24.sp,
-                fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 40.dp)
             )
         }
         Image(

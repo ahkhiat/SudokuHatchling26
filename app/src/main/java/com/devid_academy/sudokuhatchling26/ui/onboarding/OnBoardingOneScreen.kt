@@ -116,20 +116,22 @@ fun OnBoardingOneContent(
                 text = context.getString(R.string.onboarding1_text_line1),
                 fontSize = 24.sp,
                 fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 40.dp)
             )
-            Text(
-                text = context.getString(R.string.onboarding1_text_line2),
-                fontSize = 24.sp,
-                fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = context.getString(R.string.onboarding1_text_line3),
-                fontSize = 24.sp,
-                fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
-            )
+//            Text(
+//                text = context.getString(R.string.onboarding1_text_line2),
+//                fontSize = 24.sp,
+//                fontFamily = SummaryNotesFamily,
+//                textAlign = TextAlign.Center
+//            )
+//            Text(
+//                text = context.getString(R.string.onboarding1_text_line3),
+//                fontSize = 24.sp,
+//                fontFamily = SummaryNotesFamily,
+//                textAlign = TextAlign.Center
+//            )
         }
             Image(
                 painter = painterResource(R.drawable.onboarding1_pagination),

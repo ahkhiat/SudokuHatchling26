@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.R
-import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.LoginViewModel
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CustomButton
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.InputFormTextField
@@ -43,23 +43,6 @@ fun LoginScreen(
     navController: NavController
 ) {
     val viewModel: LoginViewModel = koinViewModel()
-
-    LaunchedEffect(true) {
-        viewModel.loginSharedFlow.collect { event ->
-            when (event) {
-                AuthEvent.NavigateToChooseLevel -> {
-                    navController.navigate(Screen.ChooseLevel.route)
-                }
-                is AuthEvent.ShowSnackBar -> TODO()
-                null -> TODO()
-                AuthEvent.Unknown -> TODO()
-                AuthEvent.Error -> TODO()
-                AuthEvent.NavigateToLogin -> TODO()
-                AuthEvent.NavigateToOnBoarding -> TODO()
-                AuthEvent.NavigateToStart -> TODO()
-            }
-        }
-    }
 
     LoginContent(
         onLogin = { email, password ->
@@ -81,9 +64,6 @@ fun LoginContent(
         password: String) -> Unit,
     onNavigate: () -> Unit
 ) {
-
-    val context = LocalContext.current
-
     var emailForm by remember { mutableStateOf("") }
     var passwordForm by remember { mutableStateOf("") }
 
@@ -125,7 +105,7 @@ fun LoginContent(
                 .padding(top = 300.dp)
         ) {
             Text(
-                text = context.getString(R.string.register_et_email_label),
+                text = stringResource(R.string.register_et_email_label),
                 fontSize = 24.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center
@@ -133,12 +113,12 @@ fun LoginContent(
             InputFormTextField(
                 value = emailForm,
                 onValueChange = { emailForm = it },
-                label = context.getString(R.string.register_et_email),
+                label = stringResource(R.string.register_et_email),
                 keyboardType = KeyboardType.Email
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = context.getString(R.string.register_et_password_label),
+                text = stringResource(R.string.register_et_password_label),
                 fontSize = 24.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center
@@ -146,12 +126,12 @@ fun LoginContent(
             InputFormTextField(
                 value = passwordForm,
                 onValueChange = { passwordForm = it },
-                label = context.getString(R.string.register_et_password),
+                label = stringResource(R.string.register_et_password),
                 visualTransformation = true
             )
         }
         Text(
-            text = context.getString(R.string.not_registered),
+            text = stringResource(R.string.not_registered),
             fontSize = 24.sp,
             fontFamily = SummaryNotesFamily,
             textAlign = TextAlign.Center,
@@ -163,7 +143,6 @@ fun LoginContent(
             }
         )
         CustomButton(
-            context = context,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 30.dp),

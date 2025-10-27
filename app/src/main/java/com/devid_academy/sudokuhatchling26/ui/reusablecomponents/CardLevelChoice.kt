@@ -1,6 +1,9 @@
 package com.devid_academy.sudokuhatchling26.ui.reusablecomponents
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -29,10 +33,14 @@ fun CardLevelChoice(
     selected: Boolean = false,
     onClick: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Row(
         modifier = modifier
             .width(350.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(interactionSource = interactionSource,
+                indication = null,onClick = onClick),
         horizontalArrangement = Arrangement.Start,
 //        verticalAlignment = Alignment.CenterVertically
     ){

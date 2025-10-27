@@ -59,7 +59,7 @@ fun HomeItem(imageRes: Int, label: String, onClick: () -> Unit = {}) {
                 painter = painterResource(id = imageRes),
                 contentDescription = label,
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(90.dp)
                     .clip(RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop
             )
@@ -67,7 +67,7 @@ fun HomeItem(imageRes: Int, label: String, onClick: () -> Unit = {}) {
             Text(
                 text = label,
                 fontFamily = SummaryNotesFamily,
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }

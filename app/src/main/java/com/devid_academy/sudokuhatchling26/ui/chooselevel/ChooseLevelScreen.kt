@@ -2,8 +2,11 @@ package com.devid_academy.sudokuhatchling26.ui.chooselevel
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,9 +28,9 @@ import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.devid_academy.sudokuhatchling26.logic.enum.LevelChoiceEnum
-import com.devid_academy.sudokuhatchling26.logic.viewmodel.AuthEvent
 import com.devid_academy.sudokuhatchling26.logic.viewmodel.ChooseLevelViewModel
 import com.devid_academy.sudokuhatchling26.ui.bootstrap.Screen
 import com.devid_academy.sudokuhatchling26.ui.reusablecomponents.CardLevelChoice
@@ -47,24 +49,17 @@ fun ChooseLevelScreen(
     val usernameFromVM by viewModel.usernameStateFlow.collectAsState()
     Log.i("CHOOSE LEVEL", "usernameFromVM = $usernameFromVM")
 
-    LaunchedEffect(true) {
-        viewModel.chooseLevelSharedFlow.collect { event ->
-            when(event) {
-                is AuthEvent.NavigateToLogin ->
-                    navController.navigate(Screen.Login.route)
-                else -> {}
-            }
-        }
-    }
-
     ChooseLevelContent(
         selectedLevel = selectedLevel,
         onSelectLevel = { selectedLevel = it },
-        onClick = {
+        onLogoutClick = {
             viewModel.logoutUser()
         },
         onClickLetsPlay = {
             navController.navigate(Screen.GameScreen.route + "/$selectedLevel")
+        },
+        onHomeClick = {
+            navController.navigate(Screen.Home.route)
         }
     )
 }
@@ -73,11 +68,10 @@ fun ChooseLevelScreen(
 private fun ChooseLevelContent(
     selectedLevel : LevelChoiceEnum,
     onSelectLevel: (LevelChoiceEnum) -> Unit,
-    onClick: () -> Unit,
-    onClickLetsPlay: () -> Unit
+    onLogoutClick: () -> Unit,
+    onClickLetsPlay: () -> Unit,
+    onHomeClick: () -> Unit = {}
 ) {
-    val context = LocalContext.current
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -91,14 +85,27 @@ private fun ChooseLevelContent(
             contentScale = ContentScale.Crop,
             )
 
-        MinimalDropdownMenu(
+        Row(
             modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 10.dp, end = 10.dp),
-            onClick = onClick
-        )
+                .fillMaxWidth()
+                .padding(16.dp)
+
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.button_home),
+                contentDescription = null,
+                modifier = Modifier
+                    .clickable(onClick = onHomeClick)
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            MinimalDropdownMenu(
+                modifier = Modifier,
+                onClick = onLogoutClick
+            )
+        }
+
         Text(
-            text = context.getString(R.string.choose_level_title),
+            text = stringResource(R.string.choose_level_title),
             fontSize = 34.sp,
             fontFamily = SummaryNotesFamily,
             textAlign = TextAlign.Center,
@@ -119,11 +126,9 @@ private fun ChooseLevelContent(
                     modifier = Modifier
                         .padding(bottom = 20.dp)
                 )
-
             }
         }
         CustomButton(
-            context = context,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 30.dp),
@@ -131,7 +136,6 @@ private fun ChooseLevelContent(
             text = R.string.lets_start,
             onClick = {
                 onClickLetsPlay()
-//                Log.d("CHOOSE LEVEL BUTTON", "Level selected : ${LevelChoiceEnum.entries[selectedLevel]}")
             }
         )
     }
@@ -142,10 +146,9 @@ private fun ChooseLevelContent(
 @Composable
 private fun ChooseLevelPreview() {
     ChooseLevelContent(
-        onClick = {},
+        onLogoutClick = {},
         onClickLetsPlay = {},
         selectedLevel = LevelChoiceEnum.Beginner,
         onSelectLevel = {}
     )
 }
-// important de le faire privé (tout sauf le screen)

@@ -68,12 +68,14 @@ fun CompletedScreen(
     var visible by remember { mutableStateOf(false) }
     val levelNameState = gameViewModel.difficultyIndexStateFlow.collectAsState()
     val scoreEarned = levelNameState.value.scoreValue
-    val levelName = levelNameState.value.name
+
+    val level = levelNameState.value
+    val translatedLevelName = stringResource(id = level.levelName)
 
     val levelValue = 1
-    val levelLabel = stringResource(R.string.level, levelName, levelValue)
+    val levelLabel = stringResource(R.string.level, translatedLevelName, levelValue)
 
-    Log.i("CompletedScreen", "Level label from diffIndexStateFlow from GameVM: ${levelName}")
+    Log.i("CompletedScreen", "Level label from diffIndexStateFlow from GameVM: ${translatedLevelName}")
     LaunchedEffect(Unit) {
         visible = true
     }
@@ -84,7 +86,9 @@ fun CompletedScreen(
         scoreEarned = scoreEarned,
         visible = visible,
         onNavigateToChooseLevel = {
-            navController.navigate(Screen.ChooseLevel.route)
+            navController.navigate(Screen.ChooseLevel.route) {
+                popUpTo(Screen.ChooseLevel.route) { inclusive = true }
+            }
         }
     )
 }
@@ -103,7 +107,8 @@ private fun CompletedContent(
             .background(RedBackground),
         content = {
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
             ) {
                 AnimatedVisibility(
                     visible = visible,
@@ -120,6 +125,9 @@ private fun CompletedContent(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .padding(top = 100.dp)
+                            .width(350.dp)
+//                            .border(1.dp, Color.Black)
+
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.felicitations),
@@ -147,7 +155,7 @@ private fun CompletedContent(
                             text = wellDoneMessage,
                             color = Color.Black,
                             fontFamily = SummaryNotesFamily,
-                            fontSize = 40.sp,
+                            fontSize = 32.sp,
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .padding(top = 230.dp)
@@ -184,7 +192,6 @@ private fun CompletedContent(
                             )
                         }
                         CustomButton(
-                            context = LocalContext.current,
                             modifier = Modifier
                                 .width(300.dp)
                                 .align(Alignment.BottomCenter),

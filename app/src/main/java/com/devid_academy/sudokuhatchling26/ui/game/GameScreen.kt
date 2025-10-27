@@ -26,11 +26,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -66,6 +68,7 @@ import com.devid_academy.sudokuhatchling26.ui.theme.GreyBackground
 import com.devid_academy.sudokuhatchling26.ui.theme.OrangeBackground
 import com.devid_academy.sudokuhatchling26.ui.theme.PerfectPenmanshipFamily
 import com.devid_academy.sudokuhatchling26.ui.theme.RecoletaFamily
+import com.devid_academy.sudokuhatchling26.ui.theme.RedBackground
 import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 import io.github.jan.supabase.realtime.Column
 import org.koin.androidx.compose.koinViewModel
@@ -80,6 +83,8 @@ fun GameScreen(
     val grid = viewModel.gridStateFlow.collectAsState()
     val editableCells = viewModel.editableCells
 
+    var dialogMessageResId by remember { mutableStateOf<Int?>(null) }
+
     LaunchedEffect(difficultyLevelName) {
         viewModel.setDifficultyIndex(difficultyLevelName)
         viewModel.getGrid()
@@ -93,8 +98,24 @@ fun GameScreen(
                 NavigateSharedFlow.NavigateToChooseLevel -> {
                     navController.navigate(Screen.ChooseLevel.route)
                 }
+                is NavigateSharedFlow.ShowMessageDialog -> {
+                    Log.i("GAME SCREEN", "ShowMessageDialog: ${navigationEvent.message}")
+                    dialogMessageResId = navigationEvent.message
+                }
             }
         }
+    }
+    dialogMessageResId?.let { resId ->
+        AlertDialog(
+            onDismissRequest = { dialogMessageResId = null },
+            title = { Text("Information") },
+            text = { Text(stringResource(resId)) },
+            confirmButton = {
+                TextButton(onClick = { dialogMessageResId = null }) {
+                    Text("OK")
+                }
+            }
+        )
     }
     GameContent(
         difficultyLevelName = difficultyLevelName,
@@ -121,13 +142,23 @@ private fun GameContent(
     var pickedNumber by remember { mutableStateOf(0) }
     var pickedCase by remember { mutableStateOf(-1) }
 
+    val maxBonus = 6
+
+    val editableIndices = remember(editableCells) {
+        editableCells.mapIndexedNotNull { index, isEditable ->
+            if (isEditable) index else null
+        }
+    }
+    val bonusIndices = remember(editableIndices) {
+        editableIndices.shuffled().take(maxBonus).toSet()
+    }
+
     ScaffoldComposable(
         modifier = Modifier
             .fillMaxSize()
             .background(GreyBackground)
             .padding(16.dp),
         content = { paddingValues ->
-            val context = LocalContext.current
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -174,22 +205,13 @@ private fun GameContent(
                     )
                 }
                 Text(
-                    text = context.getString(R.string.game_title_line1),
-                    fontSize = 24.sp,
+                    text = stringResource(R.string.game_title_line1),
+                    fontSize = 20.sp,
                     fontFamily = SummaryNotesFamily,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 70.dp)
-                )
-                Text(
-                    text = context.getString(R.string.game_title_line2),
-                    fontSize = 24.sp,
-                    fontFamily = SummaryNotesFamily,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 100.dp)
                 )
                 Column(
                     modifier = Modifier
@@ -198,9 +220,14 @@ private fun GameContent(
                 ) {
                     if (grid.isNotEmpty()) {
                         Box(){
+                            val gridSize = 324.dp
+                            val topPadding = 50.dp
+
                             LazyVerticalGrid(
                                 columns = GridCells.Fixed(9),
-                                modifier = Modifier.padding(top = 50.dp)
+                                modifier = Modifier
+                                    .padding(top = topPadding)
+                                    .size(gridSize)
                             ) {
                                 itemsIndexed(
                                     items = grid.flatten(),
@@ -209,15 +236,32 @@ private fun GameContent(
                                         value = item,
                                         isEditable = editableCells.getOrNull(index) == true,
                                         isSelected = pickedCase == index,
+                                        isBonus = index in bonusIndices,
                                         onClick = {
                                             pickedCase = index
                                         }
                                     )
                                 }
                             }
-
-
-
+                            Canvas(modifier = Modifier
+                                .padding(top = topPadding)
+                                .size(gridSize)
+                            ) {
+                                for (i in 1..2) {
+                                    drawLine(
+                                        color = Color.Black,
+                                        start = Offset(size.width * i / 3, 0f),
+                                        end = Offset(size.width * i / 3, size.height),
+                                        strokeWidth = 6f
+                                    )
+                                    drawLine(
+                                        color = Color.Black,
+                                        start = Offset(0f, size.height * i / 3),
+                                        end = Offset(size.width, size.height * i / 3),
+                                        strokeWidth = 6f
+                                    )
+                                }
+                            }
                         }
                     }
                     else {
@@ -242,6 +286,7 @@ private fun GameContent(
                             Log.i("CLICK", "PickedCase : $pickedCase, Number clicked : $pickedNumber, ")
                         },
                         onDeleteClick = {
+                            onSetNumber(pickedCase, 0)
                             Log.d("DELETE CLICKED", "Delete clicked")
                         },
                         modifier = Modifier
@@ -249,7 +294,6 @@ private fun GameContent(
                     )
                 }
                 CustomButton(
-                    context = context,
                     modifier = Modifier
                         .align(Alignment.BottomCenter),
                     imageBackground = R.drawable.button_red,
@@ -267,11 +311,13 @@ fun GridCase(
     value : Int?,
     isEditable: Boolean,
     isSelected: Boolean,
+    isBonus: Boolean = false,
     onClick: () -> Unit
 ) {
     val backgroundColor = when {
         isSelected -> OrangeBackground
         isEditable -> Color.White
+        isBonus -> RedBackground
         else -> Color.LightGray
     }
     val textColor = when {
@@ -288,6 +334,14 @@ fun GridCase(
                 onClick()
             }
     ) {
+        if(isBonus) {
+            Image(
+                painter = painterResource(id = R.drawable.egg_bonus),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(20.dp)
+            )
+        }
         if(value != null && value != 0 ) {
             Text(
                 text = value.toString(),

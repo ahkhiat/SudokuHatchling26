@@ -29,18 +29,7 @@ enum class OnBoardingEnum {
             Page2 -> R.string.onboarding2_text_line1
             Page3 -> R.string.onboarding3_text_line1
         }
-    val OnBoardingTextLine2: Int
-        get() = when(this) {
-            Page1 -> R.string.onboarding1_text_line2
-            Page2 -> R.string.onboarding2_text_line2
-            Page3 -> R.string.onboarding3_text_line2
-        }
-    val OnBoardingTextLine3: Int
-        get() = when(this) {
-            Page1 -> R.string.onboarding1_text_line3
-            Page2 -> R.string.empty_string
-            Page3 -> R.string.empty_string
-        }
+
 
     val paginationImage: Int
         get() = when(this) {

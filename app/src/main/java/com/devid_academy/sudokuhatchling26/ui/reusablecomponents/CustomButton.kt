@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -21,7 +22,6 @@ import com.devid_academy.sudokuhatchling26.ui.theme.SummaryNotesFamily
 
 @Composable
 fun CustomButton(
-    context: Context,
     modifier: Modifier = Modifier,
     imageBackground: Int,
     text: Int,
@@ -37,7 +37,7 @@ fun CustomButton(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(70.dp)
         ) {
             Image(
                 painter = painterResource(imageBackground),
@@ -45,7 +45,7 @@ fun CustomButton(
                 modifier = Modifier.fillMaxSize()
             )
             Text(
-                text = context.getString(text),
+                text = stringResource(text),
                 fontSize = 32.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center,

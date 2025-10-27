@@ -79,14 +79,16 @@ fun OnBoardingTwoContent(
                 text = context.getString(R.string.onboarding2_text_line1),
                 fontSize = 24.sp,
                 fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 40.dp)
             )
-            Text(
-                text = context.getString(R.string.onboarding2_text_line2),
-                fontSize = 24.sp,
-                fontFamily = SummaryNotesFamily,
-                textAlign = TextAlign.Center
-            )
+//            Text(
+//                text = context.getString(R.string.onboarding2_text_line2),
+//                fontSize = 24.sp,
+//                fontFamily = SummaryNotesFamily,
+//                textAlign = TextAlign.Center
+//            )
 //
         }
 
@@ -162,11 +164,13 @@ fun OnBoardingTwoContent(
 
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun OnBoardingTwoPreview() {
-    OnBoardingTwoContent(
-        onNextClicked = {},
-        onBackClicked = {}
-    )
+//    OnBoardingTwoContent(
+//        onNextClicked = {},
+//        onBackClicked = {}
+//    )
+
 }

@@ -13,9 +13,6 @@ class LoginViewModel(
     private val userRepository: UserRepository,
 ): ViewModel() {
 
-    private val _loginSharedFlow = MutableSharedFlow<AuthEvent?>()
-    val loginSharedFlow: SharedFlow<AuthEvent?> = _loginSharedFlow
-
     fun loginUser(
         email: String,
         password: String
@@ -28,27 +25,10 @@ class LoginViewModel(
                     cleanedEmail,
                     cleanedPassword
                 )
-
-//                val currentUser = userRepository.getCurrentUser()
-//                Log.i("LOGIN VM", "currentUser = $currentUser")
-
-//                val currentSession = userRepository.getUserSession()
-//                Log.i("LOGIN VM", "currentSession = $currentSession")
-
             } catch (e: Exception) {
                 Log.e("LOGIN VM", "Erreur lors du login ou de la récupération : ${e.message}")
             }
         }
     }
 
-}
-
-sealed class AuthEvent {
-    data object NavigateToOnBoarding: AuthEvent()
-    data object NavigateToLogin: AuthEvent()
-    data object NavigateToStart: AuthEvent()
-    data object NavigateToChooseLevel: AuthEvent()
-    data class ShowSnackBar(val resId: Int): AuthEvent()
-    data object Unknown: AuthEvent()
-    data object Error: AuthEvent()
 }

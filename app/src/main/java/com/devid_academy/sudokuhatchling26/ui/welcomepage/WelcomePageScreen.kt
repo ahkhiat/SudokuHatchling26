@@ -95,15 +95,15 @@ fun WelcomePageContent(
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 180.dp)
         )
-        Text(
-            text = context.getString(R.string.welcome_text_line2),
-            fontSize = 24.sp,
-            fontFamily = SummaryNotesFamily,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 150.dp)
-        )
+//        Text(
+//            text = context.getString(R.string.welcome_text_line2),
+//            fontSize = 24.sp,
+//            fontFamily = SummaryNotesFamily,
+//            textAlign = TextAlign.Center,
+//            modifier = Modifier
+//                .align(Alignment.BottomCenter)
+//                .padding(bottom = 150.dp)
+//        )
         Button(
             onClick = onStartClicked,
             colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),

@@ -47,7 +47,6 @@ fun MinimalDropdownMenu(
                 text = { Text("Logout") },
                 onClick = onClick
             )
-
         }
     }
 }

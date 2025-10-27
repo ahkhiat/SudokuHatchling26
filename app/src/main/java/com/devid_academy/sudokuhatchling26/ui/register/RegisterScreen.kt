@@ -145,11 +145,11 @@ fun RegisterContent(
             modifier = Modifier
                 .width(300.dp)
                 .align(Alignment.TopCenter)
-                .padding(top = 230.dp)
+                .padding(top = 220.dp)
         ) {
             Text(
                 text = context.getString(R.string.register_et_email_label),
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center
             )
@@ -159,10 +159,10 @@ fun RegisterContent(
                 label = context.getString(R.string.register_et_email),
                 keyboardType = KeyboardType.Email
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = context.getString(R.string.register_et_password_label),
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center
             )
@@ -172,10 +172,10 @@ fun RegisterContent(
                 label = context.getString(R.string.register_et_password),
                 visualTransformation = true
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = context.getString(R.string.register_et_passwordconfirm_label),
-                fontSize = 24.sp,
+                fontSize = 20.sp,
                 fontFamily = SummaryNotesFamily,
                 textAlign = TextAlign.Center
             )
@@ -188,17 +188,16 @@ fun RegisterContent(
         }
         Text(
             text = context.getString(R.string.already_registered),
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             fontFamily = SummaryNotesFamily,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 150.dp)
+                .padding(bottom = 130.dp)
                 .clickable(onClick = onNavigateToLogin)
 
         )
         CustomButton(
-            context = context,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 30.dp),

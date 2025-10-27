@@ -82,8 +82,6 @@ private fun UsernameContent(
     onUsernameChange: (String) -> Unit,
     onRegister: () -> Unit = {}
 ) {
-    val context = LocalContext.current
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -136,16 +134,13 @@ private fun UsernameContent(
                     value = usernameStateFlow,
                     onValueChange = { onUsernameChange(it) },
                     singleLine = true,
-                    visualTransformation = UppercaseTransformation(),
+//                    visualTransformation = UppercaseTransformation(),
                     textStyle = TextStyle(
                         fontFamily = FontFamily.Monospace,
-                        fontSize = 40.sp,
+                        fontSize = 32.sp,
                         color = YellowFont,
-                        letterSpacing = 20.sp,
+                        letterSpacing = 10.sp,
                     ),
-                    leadingIcon = {
-                        Spacer(modifier = Modifier.width(10.dp))
-                    },
                     shape = RoundedCornerShape(25.dp),
                     modifier = Modifier
                         .height(150.dp)
@@ -162,19 +157,18 @@ private fun UsernameContent(
                         cursorColor = Color.LightGray,
                     ),
                 )
-                Text(
-                    text = "_____",
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 50.sp,
-                    color = VeryLightGrey,
-                    letterSpacing = 15.sp,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
+//                Text(
+//                    text = "_____",
+//                    fontFamily = FontFamily.Monospace,
+//                    fontSize = 50.sp,
+//                    color = VeryLightGrey,
+//                    letterSpacing = 15.sp,
+//                    modifier = Modifier
+//                        .align(Alignment.Center)
+//                )
             }
             Spacer(modifier = Modifier.weight(1f))
             CustomButton(
-                context = context,
                 modifier = Modifier
                     .padding(bottom = 30.dp),
 

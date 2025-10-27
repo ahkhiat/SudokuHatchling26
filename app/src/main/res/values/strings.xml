@@ -2,18 +2,14 @@
     <string name="app_name">SudokuHatchling26</string>
     <string name="onboarding1_title">Progressive Sudoku Challenge</string>
 
-    <string name="onboarding1_text_line1">Grow from Eggshell to Wise Owl</string>
-    <string name="onboarding1_text_line2">as you solve puzzles</string>
-    <string name="onboarding1_text_line3">designed for every skill level!</string>
+    <string name="onboarding1_text_line1">Grow from Eggshell to Wise Owl as you solve puzzles designed for every skill level!</string>
+
     <string name="onboarding2_title">Daily Egg Hunt</string>
-    <string name="onboarding2_text_line1">Crack hiden rewards every day</string>
-    <string name="onboarding2_text_line2">with our Daily Egg Hunt!</string>
+    <string name="onboarding2_text_line1">Crack hiden rewards every day with our Daily Egg Hunt!</string>
     <string name="onboarding3_title">Night Owl Mode</string>
-    <string name="onboarding3_text_line1">Solve Sudoku puzzles in style,</string>
-    <string name="onboarding3_text_line2">day or night!</string>
+    <string name="onboarding3_text_line1">Solve Sudoku puzzles in style, day or night!</string>
     <string name="welcome_title">Welcome to</string>
-    <string name="welcome_text_line1">Crack the puzzles, spread your wings,</string>
-    <string name="welcome_text_line2">and become a Sudoku master!</string>
+    <string name="welcome_text_line1">Crack the puzzles, spread your wings, and become a Sudoku master!</string>
     <string name="button_next">Next</string>
     <string name="button_back">Back</string>
     <string name="button_start">Let\'s Start!</string>
@@ -47,8 +43,7 @@
     <string name="splash_initializing">Splash initializing</string>
     <string name="splash_refresh_failure">Failure, please reboot</string>
     <string name="lets_start">Let\'s Play!</string>
-    <string name="game_title_line1">Tap a box and select a number from below</string>
-    <string name="game_title_line2">to fill the Sudoku board.</string>
+    <string name="game_title_line1">Tap a box and select a number from below to fill the Sudoku board.</string>
     <string name="solve">Solve</string>
     <string name="no_grid_found">There\'s no grid for this level !</string>
     <string name="empty_string" />
@@ -61,9 +56,10 @@
     <string name="well_done">Well done, %1$s!</string>
     <string name="completed">COMPLETED</string>
     <string name="level">%1$s level %2$s</string>
-    <string name="hello">"Hello, %1$s"</string>
+    <string name="hello">Hello, %1$s</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="play">Play</string>
+    <string name="grid_not_solved">Grid not solved !</string>
 
 
 </resources>
